@@ -5,6 +5,7 @@ import com.sandesh.QuizApp.dao.QuizDao;
 import com.sandesh.QuizApp.model.Question;
 import com.sandesh.QuizApp.model.QuestionWrapper;
 import com.sandesh.QuizApp.model.Quiz;
+import com.sandesh.QuizApp.model.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -50,5 +51,29 @@ public class QuizService {
         }
 
         return new ResponseEntity<>(questionsForUsers, HttpStatus.OK);
+    }
+
+
+    // this function will calculate score based on user responses
+    public ResponseEntity<Integer> calculateResult(int id, List<Response> responses) {
+        Optional<Quiz> quiz = quizDao.findById(id);
+
+        List<Question> questions = quiz.get().getQuestions();
+
+        int score = 0;
+        int i = 0; // this variable is to iterate all the questions which we get from the DB
+
+        for(Response response : responses){
+            String correctAnswerFromDB = questions.get(i).getRightAnswer();
+            i++;
+
+            String userResponse = response.getResponse();
+
+            if(userResponse.equals(correctAnswerFromDB)){
+                score++;
+            }
+        }
+
+        return new ResponseEntity<>(score, HttpStatus.OK);
     }
 }

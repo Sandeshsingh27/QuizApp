@@ -24,4 +24,8 @@ public class QuestionService {
     public List<Question> getQuestionsByDifficultyLevel(String level) {
         return questionDao.findByDifficultyLevelIgnoreCase(level);
     }
+
+    public Question addQuestion(Question question) {
+        return questionDao.save(question);
+    }
 }

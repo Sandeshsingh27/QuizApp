@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 @Data  // this is create getters and setters by lombok
 public class Question {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)   // this will auto generate the id field
+    @GeneratedValue(strategy = GenerationType.IDENTITY)   // this will auto generate the id field
     private int id;
     private String category;
     private String difficultyLevel;
